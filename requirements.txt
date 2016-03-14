@@ -1,0 +1,2 @@
+jinja==2.8
+markupsafe==0.23

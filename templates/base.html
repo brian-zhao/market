@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <link href="css/normalize.css" rel="stylesheet">
+    <link href="css/skeleton.css" rel="stylesheet">
+    <link href="css/tri-river.css" rel="stylesheet">
+    <title>Tri-River Pty Ltd {% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <nav class='navbar'>
+        <div class='container'>
+        <ul class='navbar-list'>
+        <li class='navbar-item'><a class='navbar-link' href="/">Home</a></li>
+        <li class='navbar-item'><a class='navbar-link' href="/service">eCommerce Solution</a></li>
+        <li class='navbar-item'><a class='navbar-link' href="/logistics">Logistics Solution</a></li>
+        <li class='navbar-item'><a class='navbar-link' href="/about">About Us</a></li>
+        </ul>
+        </div>
+    </nav>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="footer">
+      {% block footer %}
+        <div class='container'>
+      &copy; Copyright 2015 by <a href="http://www.tri-river.com.au/">Tri-River Pty Ltd</a>. ABN 54 604 513 975
+    </div>
+      {% endblock %}
+    </div>
+
+  </body>
+</html>

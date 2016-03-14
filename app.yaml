@@ -1,0 +1,24 @@
+application: tririver-1250
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+
+handlers:
+- url: /css
+  static_dir: static/css
+  expiration: "1h"
+- url: /images
+  static_dir: static/images
+  secure: always
+- url: /.*
+  script: tririver.application
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: "2.6"
+- name: markupsafe
+  version: "0.15"
