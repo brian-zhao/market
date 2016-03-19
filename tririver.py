@@ -2,6 +2,7 @@ import datetime
 import jinja2
 import os
 import webapp2
+import models
 
 from google.appengine.api import users
 
@@ -14,8 +15,10 @@ class MainPage(webapp2.RequestHandler):
   def get(self):
     current_time = datetime.datetime.now()
     user = users.get_current_user()
+    if user:
+      models.UserPrefs(id=user.user_id()).put()
     login_url = users.create_login_url(self.request.path)
-    logout_url = users.create_login_url(self.request.path)
+    logout_url = users.create_logout_url(self.request.path)
 
     template = template_env.get_template('index.html')
     context = {
@@ -45,9 +48,16 @@ class RenderAboutPage(webapp2.RequestHandler):
     self.response.out.write(template.render({}))
 
 
+class RenderShopPage(webapp2.RequestHandler):
+  def get(self):
+    template = template_env.get_template('shop.html')
+    self.response.out.write(template.render({}))
+
+
 application = webapp2.WSGIApplication(
     [('/', MainPage),
+     ('/about', RenderAboutPage),
      ('/service', RenderServicePage),
      ('/logistics', RenderLogisticsPage),
-     ('/about', RenderAboutPage)], 
+     ('/shop', RenderShopPage)], 
     debug=True)

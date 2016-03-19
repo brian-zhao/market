@@ -10,14 +10,28 @@
   </head>
   <body>
     <nav class='navbar'>
-        <div class='container'>
-        <ul class='navbar-list'>
+      <div class='container'>
+      <ul class='navbar-list'>
         <li class='navbar-item'><a class='navbar-link' href="/">Home</a></li>
+        <li class='navbar-item'><a class='navbar-link' href="http://justbehappy.com.au">Shop</a></li>
         <li class='navbar-item'><a class='navbar-link' href="/service">eCommerce Solution</a></li>
         <li class='navbar-item'><a class='navbar-link' href="/logistics">Logistics Solution</a></li>
         <li class='navbar-item'><a class='navbar-link' href="/about">About Us</a></li>
-        </ul>
-        </div>
+      </ul>
+      <div class='u-pull-right'>
+        {% if user %}
+        <p>
+          Welcome, {{ user.email() }}!
+          <a href="{{ logout_url }}">Sign Out</a>
+        </p>
+        {% else %}
+        <p>
+          Welcome!
+          <a href="{{ login_url }}">Sign in or register</a>.
+        </p>
+        {% endif %}
+      </div>
+      </div>
     </nav>
 
     <div id="content">
