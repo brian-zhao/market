@@ -4,6 +4,7 @@ runtime: python27
 api_version: 1
 threadsafe: yes
 
+default_expiration: "2d 12h"
 
 handlers:
 - url: /images
@@ -21,3 +22,7 @@ libraries:
   version: "2.6"
 - name: markupsafe
   version: "0.15"
+
+inbound_services:
+- mail
+- warmup
