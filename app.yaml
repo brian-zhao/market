@@ -1,12 +1,19 @@
 application: tririver-1250
-version: 1_0_1
+version: 1_0_2
 runtime: python27
 api_version: 1
 threadsafe: yes
 
 default_expiration: "2d 12h"
 
+# google manul scaling
+# google default this to 10, max number is 100
+# automatic_scaling:
+#   max_concurrent_request: 20
+
 handlers:
+- url: /_ah/mail/.+
+  script: handle_catchall.app
 - url: /images
   static_dir: static/images
 - url: /css
@@ -14,6 +21,7 @@ handlers:
   # expiration: "1h"
 - url: /.*
   script: tririver.application
+
 
 libraries:
 - name: webapp2
@@ -25,4 +33,4 @@ libraries:
 
 inbound_services:
 - mail
-- warmup
+# - warmup
