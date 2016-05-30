@@ -48,9 +48,9 @@ class RenderAboutPage(webapp2.RequestHandler):
     self.response.out.write(template.render({}))
 
 
-class RenderShopPage(webapp2.RequestHandler):
+class RenderTechPage(webapp2.RequestHandler):
   def get(self):
-    template = template_env.get_template('shop.html')
+    template = template_env.get_template('tech.html')
     self.response.out.write(template.render({}))
 
 
@@ -59,5 +59,5 @@ application = webapp2.WSGIApplication(
      ('/about', RenderAboutPage),
      ('/service', RenderServicePage),
      ('/logistics', RenderLogisticsPage),
-     ('/shop', RenderShopPage)], 
+     ('/tech', RenderTechPage)], 
     debug=True)
