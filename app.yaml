@@ -1,5 +1,5 @@
-application: tririver-1250
-version: 1_0_3
+application: market-175515
+version: 1_0_0
 runtime: python27
 api_version: 1
 threadsafe: yes
