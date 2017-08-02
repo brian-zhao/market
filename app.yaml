@@ -1,8 +1,8 @@
-application: market-175515
-version: 1_0_0
+application: tririver-1250
+version: 1_0_4
 runtime: python27
 api_version: 1
-threadsafe: yes
+threadsafe: false
 
 default_expiration: "2d 12h"
 
@@ -17,9 +17,16 @@ handlers:
 - url: /css
   static_dir: static/css
   # expiration: "1h"
+- url: /admin.*
+  script: admin.application
+  login: admin
+  secure: always
 - url: /.*
   script: main.application
 
+builtins:
+- remote_api: on
+- deferred: on
 
 libraries:
 - name: webapp2

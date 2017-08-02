@@ -1,0 +1,4 @@
+cron:
+- description: job to sync share data from ASX to datastore.
+  url: /admin/asx_code_sync
+  schedule: every 24 hours
