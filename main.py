@@ -33,6 +33,31 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(template.render(context))
 
 
+# data = models.Prices.query(models.Prices.code =='CBA').fetch()
+class RenderPricePage(webapp2.RequestHandler):
+  def get(self, code_name):
+    current_time = datetime.datetime.now()
+    user = users.get_current_user()
+    if user:
+      models.UserPrefs(id=user.user_id()).put()
+    login_url = users.create_login_url(self.request.path)
+    logout_url = users.create_logout_url(self.request.path)
+
+    template = template_env.get_template('prices.html')
+    prices = models.Prices.query(
+        models.Prices.code == code_name).order(
+            -models.Prices.close_date).fetch()
+    context = {
+        'current_time': current_time,
+        'user': user,
+        'login_url': login_url,
+        'logout_url': logout_url,
+        'code_name': code_name,
+        'prices': prices,
+    }
+    self.response.out.write(template.render(context))
+
+
 class RenderServicePage(webapp2.RequestHandler):
   def get(self):
     template = template_env.get_template('service.html')
@@ -55,5 +80,6 @@ application = webapp2.WSGIApplication(
     [('/', MainPage),
      ('/about', RenderAboutPage),
      ('/service', RenderServicePage),
-     ('/tech', RenderTechPage)],
+     ('/tech', RenderTechPage),
+     (r'/price/(\w+)', RenderPricePage)],
     debug=True)

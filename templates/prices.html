@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+      <h3>{{code_name}}</h3>
+    </div>
+    <div class="mdl-cell mdl-cell--12-col">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">code</th>
+          <th class="mdl-data-table__cell--non-numeric">close_date</th>
+          <th class="mdl-data-table__cell--non-numeric">close_price</th>
+          <th class="mdl-data-table__cell--non-numeric">volume</th>
+          <th class="mdl-data-table__cell--non-numeric">day_high_price</th>
+          <th class="mdl-data-table__cell--non-numeric">day_low_price</th>
+          <th class="mdl-data-table__cell--non-numeric">change_in_percent</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for price in prices %}
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">{{price.code}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{price.close_date}}</td>
+            <td>{{price.close_price}}</td>
+            <td>{{price.volume}}</td>
+            <td>{{price.day_high_price}}</td>
+            <td>{{price.day_low_price}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{price.change_in_percent}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    </div>
+  </div>
+{% endblock %}
+

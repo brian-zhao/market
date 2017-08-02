@@ -6,9 +6,10 @@ import datetime
 import webapp2
 import urllib
 import json
-import thread
 import models
+import logging
 from google.appengine.api import taskqueue
+from google.appengine.ext import ndb
 
 ASX_200 = ['A2M', 'AAC', 'AAD', 'ABC', 'ABP', 'ACX', 'AGL', 'AHG', 'AHY', 'ALL',
            'ALQ', 'ALU', 'AMC', 'AMP', 'ANN', 'ANZ', 'AOG', 'APA', 'API', 'APO',
@@ -41,11 +42,53 @@ class AsxCodeSyncHandler(webapp2.RequestHandler):
     self.response.out.write('Code Sync: Queued')
 
 
-class RunCoeeSyncHnadler(webapp2.RequestHandler):
+class RunCodeSyncHnadler(webapp2.RequestHandler):
   def get(self):
     code_syncer = CodeSyncer('asx_code_sync')
-    tid = thread.start_new_thread(code_syncer.Run, [])
-    self.response.out.write('ASX code sync id: %s' % tid)
+    code_syncer.Run()
+    self.response.out.write('ASX code sync id: bla')
+
+
+class AsxPriceSyncHandler(webapp2.RequestHandler):
+  def get(self):
+    taskqueue.add(
+        queue_name='PriceSync',
+        url='/admin/run_price_sync',
+        method='GET')
+    self.response.out.write('Price Sync: Queued')
+
+
+class RunPriceSyncHnadler(webapp2.RequestHandler):
+  def get(self):
+    price_syncer = PriceSyncer('asx_price_sync')
+    price_syncer.Run()
+    self.response.out.write('ASX price sync id: bla')
+
+
+class PriceSyncer(object):
+  def __init__(self, task_name):
+    self._task_name = task_name
+
+  def Run(self):
+    for code in ASX_200:
+      url = ('http://data.asx.com.au/data/1/share/%s/prices?' +
+             'interval=daily&count=600') % code
+      response = urllib.urlopen(url)
+      data = json.loads(response.read())
+      entities = []
+      for d in data['data']:
+        p = models.Prices(
+            code=d['code'],
+            close_date=datetime.datetime.strptime(
+                d['close_date'], '%Y-%m-%dT%H:%M:%S+%f'),
+            close_price=d['close_price'],
+            change_price=d['change_price'],
+            volume=d['volume'],
+            day_high_price=d['day_high_price'],
+            day_low_price=d['day_low_price'],
+            change_in_percent=d['change_in_percent'])
+        entities.append(p)
+      ndb.put_multi(entities)
 
 
 class CodeSyncer(object):
@@ -54,10 +97,10 @@ class CodeSyncer(object):
 
   def Run(self):
     for code in ASX_200:
-      url = "http://data.asx.com.au/data/1/share/%s/" % code
+      url = 'http://data.asx.com.au/data/1/share/%s/' % code
       response = urllib.urlopen(url)
       data = json.loads(response.read())
-      print(code)
+      logging.info('processing %s', code)
       models.shares.create(
         code=data['code'],
         desc_full=data['desc_full'],
@@ -98,5 +141,7 @@ class CodeSyncer(object):
 
 application = webapp2.WSGIApplication(
     [('/admin/asx_code_sync', AsxCodeSyncHandler),
-     ('/admin/run_code_sync', RunCoeeSyncHnadler)],
+     ('/admin/run_code_sync', RunCodeSyncHnadler),
+     ('/admin/asx_price_sync', AsxPriceSyncHandler),
+     ('/admin/run_price_sync', RunPriceSyncHnadler)],
     debug=True)

@@ -1,0 +1,13 @@
+indexes:
+
+- kind: Prices
+  properties:
+  - name: code
+  - name: close_date
+    direction: asc
+
+- kind: Prices
+  properties:
+  - name: code
+  - name: close_date
+    direction: desc

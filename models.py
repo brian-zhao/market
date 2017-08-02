@@ -50,3 +50,25 @@ class shares(ndb.Model):
       share = shares(id=kwargs.get('code'), **kwargs)
     share.put()
     return share
+
+
+class Prices(ndb.Model):
+  code = ndb.StringProperty(required=True)
+  close_date = ndb.DateTimeProperty()
+  close_price = ndb.FloatProperty()
+  change_price = ndb.FloatProperty()
+  volume = ndb.IntegerProperty()
+  day_high_price = ndb.FloatProperty()
+  day_low_price = ndb.FloatProperty()
+  change_in_percent = ndb.StringProperty()
+
+  @classmethod
+  def get(cls, code):
+    if code:
+      return cls.query().order(cls.close_date).fetch()
+
+  @classmethod
+  def create(cls, **kwargs):
+    price = Prices(**kwargs)
+    price.put()
+    return price
