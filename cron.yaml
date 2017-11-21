@@ -1,8 +1,10 @@
 cron:
 - description: job to sync share data from ASX to datastore.
   url: /admin/asx_code_sync
-  schedule: every 24 hours
+  schedule: every mon,tue,wed,thu,fri 17:00
+  timezone: Australia/NSW
 
 - description: job to sync price data from ASX to datastore.
   url: /admin/asx_price_sync
-  schedule: every 24 hours
+  schedule: every mon,tue,wed,thu,fri 17:00
+  timezone: Australia/NSW
