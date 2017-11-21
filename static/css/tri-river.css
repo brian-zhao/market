@@ -41,10 +41,10 @@ ul {
   border-bottom: 1px solid #ddd; }
 
 .navbar {
+  background-color: #f1c330 !important;
   border-bottom: 2px solid #E7E7E7;
   width: 100%;
-  margin: 0;
-  padding: 10px 0; }
+  margin: 0; }
   .navbar ul.navbar-list {
     list-style: none; }
   .navbar li.navbar-item {
@@ -52,12 +52,14 @@ ul {
     float: left;
     margin-bottom: 0; }
   .navbar a.navbar-link {
+    color: black;
     text-decoration: none;
     margin-right: 35px; }
 
 #footer {
   border-top: 2px solid #E7E7E7;
   padding-top: 10px;
+  /*position: absolute;*/
   left: 0;
   bottom: 0;
   height: 100px;

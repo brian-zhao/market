@@ -1,6 +1,10 @@
 $main-bg-color: #f5f5f5;
 $border-color: #E7E7E7;
 
+$goldenrod: #f1c330;
+$seagreen: #4b9e53;
+$cadetblue: #649991;
+
 html,body {
   margin: 0;
   padding: 0;
@@ -51,28 +55,29 @@ ul{
 }
 
 .navbar{
-    border-bottom: 2px solid $border-color;
-    width: 100%;
-    margin: 0;
-    padding: 10px 0;
-    ul.navbar-list {
-        list-style: none;
-    }
-    li.navbar-item{
-        position: relative;
-        float: left;
-        margin-bottom: 0;
-    }
-    a.navbar-link {
-        text-decoration: none;
-        margin-right: 35px;
-    }
+  background-color: $goldenrod !important;
+  border-bottom: 2px solid $border-color;
+  width: 100%;
+  margin: 0;
+  ul.navbar-list {
+    list-style: none;
+  }
+  li.navbar-item{
+    position: relative;
+    float: left;
+    margin-bottom: 0;
+  }
+  a.navbar-link {
+    color: black;
+    text-decoration: none;
+    margin-right: 35px;
+  }
 }
 
 #footer{
     border-top: 2px solid $border-color;
     padding-top: 10px;
-    // position: absolute;
+    /*position: absolute;*/
     left: 0;
     bottom: 0;
     height: 100px;

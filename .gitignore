@@ -3,3 +3,5 @@
 *.swo
 *.css.map
 .DS_Store
+*.map
+
