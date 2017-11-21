@@ -65,6 +65,65 @@ class RunPriceSyncHnadler(webapp2.RequestHandler):
     self.response.out.write('ASX price sync id: bla')
 
 
+class AsxCompanySyncHandler(webapp2.RequestHandler):
+  def get(self):
+    taskqueue.add(
+        queue_name='CompanySync',
+        url='/admin/run_company_sync',
+        method='GET')
+    self.response.out.write('Company Sync: Queued')
+
+
+class RunCompanySyncHandler(webapp2.RequestHandler):
+  def get(self):
+    company_syncer = CompanySyncer('asx_company_sync')
+    company_syncer.Run()
+    self.response.out.write('ASX company sync done.')
+
+
+class CompanySyncer(object):
+  def __init__(self, task_name):
+    self._task_name = task_name
+
+  def Run(self):
+    for code in ASX_200:
+      url = 'http://data.asx.com.au/data/1/company/%s' % code
+      response = urllib.urlopen(url)
+      data = json.loads(response.read())
+      models.shares.create(
+          code=data['code'],
+          name_full=data['name_full'],
+          name_short=data['name_short'],
+          name_abbrev=data['name_abbrev'],
+          principal_activities=data['principal_activities'],
+          industry_group_name=data['industry_group_name'],
+          sector_name=data['sector_name'],
+          listing_date=(
+              datetime.datetime.strptime(
+                  data['listing_date'], '%Y-%m-%dT%H:%M:%S+%f')
+              if data['listing_date'] else None),
+          delisting_date=(
+              datetime.datetime.strptime(
+                  data['delisting_date'], '%Y-%m-%dT%H:%M:%S+%f')
+              if data['delisting_date'] else None),
+          web_address=data['web_address'],
+          mailing_address=data.get('mailing_address', ''),
+          phone_number=data.get('phone_number', ''),
+          fax_number=data.get('fax_number', ''),
+          registry_name=data.get('registry_name', ''),
+          registry_address=data.get('registry_address', ''),
+          registry_phone_number=data.get('registry_phone_number', ''),
+          foreign_exempt=(
+              bool(data['foreign_exempt'])
+              if data['foreign_exempt'] else False),
+          investor_relations_url=data['investor_relations_url'],
+          primary_share_code=data['primary_share_code'],
+          recent_announcement=(
+              bool(data['recent_announcement'])
+              if data['recent_announcement'] else False),
+          products=data['products'])
+
+
 class PriceSyncer(object):
   def __init__(self, task_name):
     self._task_name = task_name
@@ -72,7 +131,7 @@ class PriceSyncer(object):
   def Run(self):
     for code in ASX_200:
       url = ('http://data.asx.com.au/data/1/share/%s/prices?' +
-             'interval=daily&count=600') % code
+             'interval=daily&count=1') % code
       response = urllib.urlopen(url)
       data = json.loads(response.read())
       entities = []
@@ -143,5 +202,7 @@ application = webapp2.WSGIApplication(
     [('/admin/asx_code_sync', AsxCodeSyncHandler),
      ('/admin/run_code_sync', RunCodeSyncHnadler),
      ('/admin/asx_price_sync', AsxPriceSyncHandler),
-     ('/admin/run_price_sync', RunPriceSyncHnadler)],
+     ('/admin/run_price_sync', RunPriceSyncHnadler),
+     ('/admin/asx_company_sync', AsxCompanySyncHandler),
+     ('/admin/run_company_sync', RunCompanySyncHandler)],
     debug=True)

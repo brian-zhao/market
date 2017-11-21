@@ -3,8 +3,12 @@ import jinja2
 import os
 import webapp2
 import models
+import urllib
+import json
 
+from google.appengine.ext import ndb
 from google.appengine.api import users
+from google_finance import GoogleFinance
 
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -44,9 +48,14 @@ class RenderPricePage(webapp2.RequestHandler):
     logout_url = users.create_logout_url(self.request.path)
 
     template = template_env.get_template('prices.html')
+    share = models.shares.query(
+        models.shares.code == code_name).get()
     prices = models.Prices.query(
         models.Prices.code == code_name).order(
             -models.Prices.close_date).fetch()
+    g_fin = GoogleFinance()
+    news = g_fin.get_news(code_name)
+
     context = {
         'current_time': current_time,
         'user': user,
@@ -54,6 +63,8 @@ class RenderPricePage(webapp2.RequestHandler):
         'logout_url': logout_url,
         'code_name': code_name,
         'prices': prices,
+        'share': share,
+        'news': news
     }
     self.response.out.write(template.render(context))
 
@@ -76,10 +87,44 @@ class RenderTechPage(webapp2.RequestHandler):
     self.response.out.write(template.render({}))
 
 
+class SinglePriceSyncHnadler(webapp2.RequestHandler):
+  def get(self, code_name):
+    price_syncer = SinglePriceSyncer('asx_price_sync', code_name)
+    price_syncer.Run()
+    self.response.out.write('ASX price sync id: bla')
+
+
+class SinglePriceSyncer(object):
+  def __init__(self, task_name, code_name):
+    self._task_name = task_name
+    self.code_name = code_name
+
+  def Run(self):
+    url = ('http://data.asx.com.au/data/1/share/%s/prices?' +
+           'interval=daily&count=600') % self.code_name
+    response = urllib.urlopen(url)
+    data = json.loads(response.read())
+    entities = []
+    for d in data['data']:
+      p = models.Prices(
+          code=d['code'],
+          close_date=datetime.datetime.strptime(
+              d['close_date'], '%Y-%m-%dT%H:%M:%S+%f'),
+          close_price=d['close_price'],
+          change_price=d['change_price'],
+          volume=d['volume'],
+          day_high_price=d['day_high_price'],
+          day_low_price=d['day_low_price'],
+          change_in_percent=d['change_in_percent'])
+      entities.append(p)
+    ndb.put_multi(entities)
+
+
 application = webapp2.WSGIApplication(
     [('/', MainPage),
      ('/about', RenderAboutPage),
      ('/service', RenderServicePage),
      ('/tech', RenderTechPage),
-     (r'/price/(\w+)', RenderPricePage)],
+     (r'/price/(\w+)', RenderPricePage),
+     (r'/single_price_sync/(\w+)', SinglePriceSyncHnadler)],
     debug=True)

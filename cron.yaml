@@ -8,3 +8,7 @@ cron:
   url: /admin/asx_price_sync
   schedule: every mon,tue,wed,thu,fri 17:00
   timezone: Australia/NSW
+
+- description: job to sync company data from ASX to datastore.
+  url: /admin/asx_company_sync
+  schedule: every 168 hours

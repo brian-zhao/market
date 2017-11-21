@@ -6,35 +6,18 @@
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
       <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric">code</th>
-          <th class="mdl-data-table__cell--non-numeric">last_price</th>
-          <th class="mdl-data-table__cell--non-numeric">annual_dividend_yield</th>
-          <th class="mdl-data-table__cell--non-numeric">pe</th>
-          <th class="mdl-data-table__cell--non-numeric">eps</th>
-          <th class="mdl-data-table__cell--non-numeric">open_price</th>
-          <th class="mdl-data-table__cell--non-numeric">day_high_price</th>
-          <th class="mdl-data-table__cell--non-numeric">day_low_price</th>
-          <th class="mdl-data-table__cell--non-numeric">change_price</th>
-          <th class="mdl-data-table__cell--non-numeric">change_in_percent</th>
-          <th class="mdl-data-table__cell--non-numeric">volume</th>
-          <th class="mdl-data-table__cell--non-numeric">bid_price</th>
-          <th class="mdl-data-table__cell--non-numeric">offer_price</th>
-          <th class="mdl-data-table__cell--non-numeric">previous_close_price</th>
-          <th class="mdl-data-table__cell--non-numeric">previous_day_percentage_change</th>
-          <th class="mdl-data-table__cell--non-numeric">year_high_price</th>
-          <th class="mdl-data-table__cell--non-numeric">last_trade_date</th>
-          <th class="mdl-data-table__cell--non-numeric">year_high_date</th>
-          <th class="mdl-data-table__cell--non-numeric">year_low_price</th>
-          <th class="mdl-data-table__cell--non-numeric">year_low_date</th>
-          <th class="mdl-data-table__cell--non-numeric">year_open_date</th>
-          <th class="mdl-data-table__cell--non-numeric">average_daily_volume</th>
-          <th class="mdl-data-table__cell--non-numeric">market_cap</th>
-          <th class="mdl-data-table__cell--non-numeric">number_of_shares</th>
-          <th class="mdl-data-table__cell--non-numeric">deprecated_market_cap</th>
-          <th class="mdl-data-table__cell--non-numeric">deprecated_number_of_shares</th>
-          <th class="mdl-data-table__cell--non-numeric">suspended</th>
-          <th class="mdl-data-table__cell--non-numeric">status</th>
-          <th class="mdl-data-table__cell--non-numeric">desc_full</th>
+          <th class="mdl-data-table__cell--non-numeric">Code</th>
+          <th class="mdl-data-table__cell--non-numeric">Company</th>
+          <th class="mdl-data-table__cell--non-numeric">PE</th>
+          <th class="mdl-data-table__cell--non-numeric">EPS</th>
+          <th class="mdl-data-table__cell--non-numeric">Last Price</th>
+          <th class="mdl-data-table__cell--non-numeric">Change %</th>
+          <th class="mdl-data-table__cell--non-numeric">Dividend Yeild</th>
+          <th class="mdl-data-table__cell--non-numeric">Sector</th>
+          <th class="mdl-data-table__cell--non-numeric">Volumn</th>
+          <th class="mdl-data-table__cell--non-numeric">Market Cap</th>
+          <th class="mdl-data-table__cell--non-numeric">Total Shares</th>
+          <th class="mdl-data-table__cell--non-numeric">ASX type</th>
         </tr>
       </thead>
       <tbody>
@@ -42,33 +25,16 @@
           <tr>
             <td class="mdl-data-table__cell--non-numeric">
               <a href="/price/{{share.code}}">{{share.code}}</a></td>
-            <td>{{share.last_price}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.annual_dividend_yield}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{share.name_full}}</td>
             <td>{{share.pe}}</td>
             <td>{{share.eps}}</td>
-            <td>{{share.open_price}}</td>
-            <td>{{share.day_high_price}}</td>
-            <td>{{share.day_low_price}}</td>
-            <td>{{share.change_price}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.change_in_percent}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.volume}}</td>
-            <td>{{share.bid_price}}</td>
-            <td>{{share.offer_price}}</td>
-            <td>{{share.previous_close_price}}</td>
+            <td>{{share.last_price}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{share.previous_day_percentage_change}}</td>
-            <td>{{share.year_high_price}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.last_trade_date}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.year_high_date}}</td>
-            <td>{{share.year_low_price}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.year_low_date}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.year_open_date}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.average_daily_volume}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{share.annual_dividend_yield}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{share.sector_name}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{share.volume}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{share.market_cap}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{share.number_of_shares}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.deprecated_market_cap}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.deprecated_number_of_shares}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.suspended}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{share.status}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{share.desc_full}}</td>
           </tr>
         {% endfor %}

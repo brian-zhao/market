@@ -36,6 +36,27 @@ class shares(ndb.Model):
   suspended = ndb.BooleanProperty(default=False)
   status = ndb.JsonProperty()
 
+  name_full = ndb.StringProperty()
+  name_short = ndb.StringProperty()
+  name_abbrev = ndb.StringProperty()
+  principal_activities = ndb.StringProperty()
+  industry_group_name = ndb.StringProperty()
+  sector_name = ndb.StringProperty()
+  listing_date = ndb.DateTimeProperty()
+  delisting_date = ndb.DateTimeProperty()
+  web_address = ndb.StringProperty()
+  mailing_address = ndb.StringProperty()
+  phone_number = ndb.StringProperty()
+  fax_number = ndb.StringProperty()
+  registry_name = ndb.StringProperty()
+  registry_address = ndb.StringProperty()
+  registry_phone_number = ndb.StringProperty()
+  foreign_exempt = ndb.BooleanProperty()
+  investor_relations_url = ndb.StringProperty()
+  primary_share_code = ndb.StringProperty()
+  recent_announcement = ndb.BooleanProperty()
+  products = ndb.JsonProperty()
+
   @classmethod
   def get(cls, code):
     if code:

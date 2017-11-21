@@ -2,36 +2,65 @@
 {% block content %}
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-      <h3>{{code_name}}</h3>
+      <h4>{{share.name_full}} ({{share.code}})</h4>
+      {% if user and user.email() == 'zhaoyubrian@gmail.com' %}
+      <a href="/single_price_sync/{{code_name}}">re-download</a>
+      {% endif %}
     </div>
+    <p>News</p>
     <div class="mdl-cell mdl-cell--12-col">
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-      <thead>
-        <tr>
-          <th class="mdl-data-table__cell--non-numeric">code</th>
-          <th class="mdl-data-table__cell--non-numeric">close_date</th>
-          <th class="mdl-data-table__cell--non-numeric">close_price</th>
-          <th class="mdl-data-table__cell--non-numeric">volume</th>
-          <th class="mdl-data-table__cell--non-numeric">day_high_price</th>
-          <th class="mdl-data-table__cell--non-numeric">day_low_price</th>
-          <th class="mdl-data-table__cell--non-numeric">change_in_percent</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for price in prices %}
+        <!-- <thead>
           <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{price.code}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{price.close_date}}</td>
-            <td>{{price.close_price}}</td>
-            <td>{{price.volume}}</td>
-            <td>{{price.day_high_price}}</td>
-            <td>{{price.day_low_price}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{price.change_in_percent}}</td>
+            <th class="mdl-data-table__cell--non-numeric">code</th>
+            <th class="mdl-data-table__cell--non-numeric">close_date</th>
+            <th class="mdl-data-table__cell--non-numeric">close_price</th>
+            <th class="mdl-data-table__cell--non-numeric">volume</th>
+            <th class="mdl-data-table__cell--non-numeric">day_high_price</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead> -->
+        <tbody>
+          {% for nn in news %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric"><a href="{{nn.sru}}" target="_blank">{{nn.t}}</a></td>
+              <td class="mdl-data-table__cell--non-numeric">{{nn.sp}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{nn.tt}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{nn.d}}</td>
+              <td class="mdl-data-table__cell--non-numeric"><a href="{{nn.sru}}">original url</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
+    <p>Historical Prices</p>
+    <div class="mdl-cell mdl-cell--12-col">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric">code</th>
+            <th class="mdl-data-table__cell--non-numeric">close_date</th>
+            <th class="mdl-data-table__cell--non-numeric">close_price</th>
+            <th class="mdl-data-table__cell--non-numeric">volume</th>
+            <th class="mdl-data-table__cell--non-numeric">day_high_price</th>
+            <th class="mdl-data-table__cell--non-numeric">day_low_price</th>
+            <th class="mdl-data-table__cell--non-numeric">change_in_percent</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for price in prices %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">{{price.code}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{price.close_date}}</td>
+              <td>{{price.close_price}}</td>
+              <td>{{price.volume}}</td>
+              <td>{{price.day_high_price}}</td>
+              <td>{{price.day_low_price}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{price.change_in_percent}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endblock %}

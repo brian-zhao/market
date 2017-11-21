@@ -1,0 +1,2 @@
+demjson==1.6
+beautifulsoup4
