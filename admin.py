@@ -3,11 +3,13 @@ from __future__ import division
 from __future__ import print_function
 
 import datetime
-import webapp2
-import urllib
+import holidays
 import json
-import models
 import logging
+import models
+import urllib
+import webapp2
+
 from google.appengine.api import taskqueue
 from google.appengine.ext import ndb
 
@@ -31,6 +33,7 @@ ASX_200 = ['A2M', 'AAC', 'AAD', 'ABC', 'ABP', 'ACX', 'AGL', 'AHG', 'AHY', 'ALL',
            'STW', 'SUL', 'SUN', 'SVW', 'SWM', 'SXL', 'SYD', 'SYR', 'TAH', 'TCL',
            'TGR', 'TLS', 'TME', 'TNE', 'TPM', 'TTS', 'TWE', 'VCX', 'VOC', 'VRT',
            'VVR', 'WBC', 'WEB', 'WES', 'WFD', 'WHC', 'WOR', 'WOW', 'WPL', 'WSA']
+AU_HOLIDAYS = holidays.AU(prov='NSW')
 
 
 class AsxCodeSyncHandler(webapp2.RequestHandler):
@@ -129,6 +132,9 @@ class PriceSyncer(object):
     self._task_name = task_name
 
   def Run(self):
+    if datetime.datetime.today() in AU_HOLIDAYS:
+      return
+
     for code in ASX_200:
       url = ('http://data.asx.com.au/data/1/share/%s/prices?' +
              'interval=daily&count=1') % code
@@ -155,6 +161,9 @@ class CodeSyncer(object):
     self._task_name = task_name
 
   def Run(self):
+    if datetime.datetime.today() in AU_HOLIDAYS:
+      return
+
     for code in ASX_200:
       url = 'http://data.asx.com.au/data/1/share/%s/' % code
       response = urllib.urlopen(url)
