@@ -1,10 +1,11 @@
+import csv
 import datetime
 import jinja2
-import os
-import webapp2
-import models
-import urllib
 import json
+import models
+import os
+import urllib
+import webapp2
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -120,11 +121,29 @@ class SinglePriceSyncer(object):
     ndb.put_multi(entities)
 
 
+class AddCompanyHander(webapp2.RequestHandler):
+  def get(self):
+    template = template_env.get_template('job_done.html')
+
+    companies = []
+    with open('ASXListedCompanies.csv', 'rb') as csvfile:
+      code_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+      for row in code_reader:
+        data = models.Company(
+            compnay_name=row[0],
+            asx_code=row[1],
+            industry_group_name=row[2])
+        companies.append(data)
+    ndb.put_multi(companies)
+    self.response.out.write(template.render({'job_name': 'add_company'}))
+
+
 application = webapp2.WSGIApplication(
     [('/', MainPage),
      ('/about', RenderAboutPage),
      ('/service', RenderServicePage),
      ('/tech', RenderTechPage),
      (r'/price/(\w+)', RenderPricePage),
-     (r'/single_price_sync/(\w+)', SinglePriceSyncHnadler)],
+     (r'/single_price_sync/(\w+)', SinglePriceSyncHnadler),
+     ('/admin/add_company', AddCompanyHander)],
     debug=True)

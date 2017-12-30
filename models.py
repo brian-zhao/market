@@ -5,6 +5,12 @@ class UserPrefs(ndb.Model):
   user = ndb.UserProperty(auto_current_user_add=True)
 
 
+class Company(ndb.Model):
+  compnay_name = ndb.StringProperty(required=True)
+  asx_code = ndb.StringProperty(required=True)
+  industry_group_name = ndb.StringProperty()
+
+
 class shares(ndb.Model):
   code = ndb.StringProperty(required=True)
   desc_full = ndb.StringProperty()
