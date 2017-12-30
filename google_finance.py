@@ -11,7 +11,7 @@ class GoogleFinance(object):
     pass
 
   def build_news_url(self, code):
-    return ('http://www.google.com/finance/company_news?output=json&q=ASX:' +
+    return ('http://finance.google.com/finance/company_news?output=json&q=ASX:' +
             code + '&start=0&num=1000')
 
   def get_news(self, code):
