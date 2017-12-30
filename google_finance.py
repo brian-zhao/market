@@ -14,6 +14,9 @@ class GoogleFinance(object):
     return ('http://finance.google.com/finance/company_news?output=json&q=ASX:' +
             code + '&start=0&num=1000')
 
+  def build_company_url(self, code):
+    return ('http://finance.google.com/finance?output=json&q=ASX:' + code)
+
   def get_news(self, code):
     """Get the ASX code related new from Google news API.
 
@@ -42,3 +45,11 @@ class GoogleFinance(object):
                 article_json.extend(cluster[article])
 
     return article_json
+
+  def get_g_fin_details(self, code):
+    url = self.build_company_url(code)
+    req = Request(url)
+    resp = urlopen(req)
+    content_json = demjson.decode(resp.read()[3:])
+
+    return content_json

@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import csv
 import datetime
 import jinja2
@@ -56,6 +60,7 @@ class RenderPricePage(webapp2.RequestHandler):
             -models.Prices.close_date).fetch()
     g_fin = GoogleFinance()
     news = g_fin.get_news(code_name)
+    g_detail = g_fin.get_g_fin_details(code_name)
 
     context = {
         'current_time': current_time,
@@ -65,7 +70,9 @@ class RenderPricePage(webapp2.RequestHandler):
         'code_name': code_name,
         'prices': prices,
         'share': share,
-        'news': news
+        'news': news,
+        'gd': g_detail[0],
+        # 'g_financial': g_detail['financials'][0]
     }
     self.response.out.write(template.render(context))
 
