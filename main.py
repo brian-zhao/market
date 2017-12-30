@@ -145,5 +145,5 @@ application = webapp2.WSGIApplication(
      ('/tech', RenderTechPage),
      (r'/price/(\w+)', RenderPricePage),
      (r'/single_price_sync/(\w+)', SinglePriceSyncHnadler),
-     ('/admin/add_company', AddCompanyHander)],
+     ('/bz/add_company', AddCompanyHander)],
     debug=True)
