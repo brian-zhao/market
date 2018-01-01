@@ -60,7 +60,7 @@ class RenderPricePage(webapp2.RequestHandler):
             -models.Prices.close_date).fetch()
     g_fin = GoogleFinance()
     news = g_fin.get_news(code_name)
-    g_detail = g_fin.get_g_fin_details(code_name)
+    # g_detail = g_fin.get_g_fin_details(code_name)
 
     context = {
         'current_time': current_time,
@@ -71,8 +71,7 @@ class RenderPricePage(webapp2.RequestHandler):
         'prices': prices,
         'share': share,
         'news': news,
-        'gd': g_detail[0],
-        # 'g_financial': g_detail['financials'][0]
+        # 'gd': g_detail[0]
     }
     self.response.out.write(template.render(context))
 

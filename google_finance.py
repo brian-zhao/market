@@ -2,8 +2,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import logging
 import demjson
+import urllib2
 from urllib2 import Request, urlopen
+
+from urllib3 import PoolManager
+from urllib3.contrib.appengine import AppEngineManager, is_appengine_sandbox
 
 
 class GoogleFinance(object):
@@ -48,8 +53,18 @@ class GoogleFinance(object):
 
   def get_g_fin_details(self, code):
     url = self.build_company_url(code)
-    req = Request(url)
-    resp = urlopen(req)
-    content_json = demjson.decode(resp.read()[3:])
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    response = opener.open(url)
+    content_json = demjson.decode(response.read()[3:])
 
+    # if is_appengine_sandbox():
+    #   # AppEngineManager uses AppEngine's URLFetch API behind the scenes
+    #   http = AppEngineManager()
+    # else:
+    #   # PoolManager uses a socket-level API behind the scenes
+    #   http = PoolManager()
+    # page = http.request('GET', url, preload_content=False)
+    # logging.info(page.read())
+    # content_json = demjson.decode(page.read()[3:])
     return content_json

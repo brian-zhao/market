@@ -22,24 +22,22 @@
   <body>
     <nav class='navbar'>
       <div class='container'>
-      <ul class='navbar-list'>
-        <li class='navbar-item'><a class='navbar-link' href="/">Home</a></li>
-        <li class='navbar-item'><a class='navbar-link' href="/tech">Tech</a></li>
-        <li class='navbar-item'><a class='navbar-link' href="/service">Solution</a></li>
-        <li class='navbar-item'><a class='navbar-link' href="/about">About Us</a></li>
-      </ul>
-      <div class='u-pull-right'>
-        {% if user %}
-        <p>
-          Welcome, {{ user.email() }}!
-          <a href="{{ logout_url }}">Sign Out</a>
-        </p>
-        {% else %}
-        <p>
-          <a href="{{ login_url }}">Sign in or register</a>.
-        </p>
-        {% endif %}
-      </div>
+        <ul class='navbar-list'>
+          <li class='navbar-item'><a class='navbar-link' href="/" style="height: 64px;"
+>
+            <img src="/images/logo.png" alt="BZ-Market-Logo"></a>
+          </li>
+          <li class='navbar-item'><a class='navbar-link' href="/tech">Tech</a></li>
+          <li class='navbar-item'><a class='navbar-link' href="/service">Solution</a></li>
+          <li class='navbar-item'><a class='navbar-link' href="/about">About Us</a></li>
+          <li class='navbar-item'>
+            {% if user %}
+            <a class='navbar-link' href="{{ logout_url }}">Sign Out</a>
+            {% else %}
+            <a class='navbar-link' href="{{ login_url }}">Sign in or register</a>.
+            {% endif %}
+          </li>
+        </ul>
       </div>
     </nav>
 
