@@ -30,7 +30,7 @@
           <li class='navbar-item'><a class='navbar-link' href="/tech">Tech</a></li>
           <li class='navbar-item'><a class='navbar-link' href="/service">Solution</a></li>
           <li class='navbar-item'><a class='navbar-link' href="/about">About Us</a></li>
-          <li class='navbar-item'>{% if user %}<a class='navbar-link' href="{{ logout_url }}">Sign Out</a>
+          <li class='navbar-item'>{% if user %} <a class='navbar-link' href="{{ logout_url }}">Sign Out</a>
             {% else %}<a class='navbar-link' href="{{ login_url }}">Sign in or register</a>{% endif %}
           </li>
         </ul>
@@ -44,7 +44,7 @@
   <div id="footer">
     {% block footer %}
       <div class='container'>
-    &copy; Copyright 2015-17 by <a href="http://www.brianzhao.xyz/">Brian Zhao</a>.
+    &copy; Copyright 2015-18 by <a href="http://www.brianzhao.xyz/">Brian Zhao</a>.
   </div>
     {% endblock %}
   </div>
