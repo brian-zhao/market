@@ -39,7 +39,10 @@ class GoogleFinance(object):
 
     url = self.build_news_url(code)
     req = Request(url)
-    resp = urlopen(req)
+    try:
+      resp = urlopen(req)
+    except urllib2.HTTPError:
+      return []
     content_json = demjson.decode(resp.read())
 
     article_json = []
